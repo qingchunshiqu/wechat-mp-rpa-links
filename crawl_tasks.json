@@ -2,20 +2,13 @@
   "comment": "按公众号配置每日定时抓取。时段由调度器/任务计划决定，这里只存公众号信息。",
   "accounts": [
     {
-      "name": "人民日报",
-      "max_articles": 10
-    },
-    {
-      "name": "新华社",
-      "max_articles": 10
-    },
-    {
-      "name": "央视新闻",
+      "name": "目标公众号",
+      "wechat_id": "",
       "max_articles": 10
     }
   ],
   "download_articles": true,
-  "download_dir": "daily_articles",
+  "download_dir": "downloads",
   "headless": false,
   "browser_channel": "chrome",
   "browser_executable": "",

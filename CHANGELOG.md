@@ -10,6 +10,6 @@
 - 支持读取 `crawl_tasks.json` 执行每日批量抓取任务。
 - 支持通过 `--browser-channel chrome/msedge` 使用本机浏览器运行。
 
-### Security
+### Changed
 
-- 默认忽略 `mp_auth.json`、抓取结果和下载目录，避免发布登录态与第三方内容。
+- 完善公开文档、风险说明和本地运行配置示例。

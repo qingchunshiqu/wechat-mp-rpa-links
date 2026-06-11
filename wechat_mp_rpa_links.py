@@ -12,10 +12,10 @@ Flow:
 7. Read article rows, extract "View article" links, turn pages until enough.
 
 Usage:
-  python wechat_mp_rpa_links.py "人民日报" 10
-  python wechat_mp_rpa_links.py "人民日报" 10 -o renminribao_links.json
-  python wechat_mp_rpa_links.py "人民日报" 10 --wechat-id rmrbwx --headless
-  python wechat_mp_rpa_links.py "人民日报" 10 --headless --browser-channel chrome
+  python wechat_mp_rpa_links.py "目标公众号" 10
+  python wechat_mp_rpa_links.py "目标公众号" 10 -o output.json
+  python wechat_mp_rpa_links.py "目标公众号" 10 --wechat-id gh_xxxxx --headless
+  python wechat_mp_rpa_links.py "目标公众号" 10 --headless --browser-channel chrome
 """
 
 from __future__ import annotations
@@ -694,10 +694,10 @@ async def run_rpa(
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="RPA-style WeChat MP article link collector")
-    parser.add_argument("account", help="Public account name, e.g. 人民日报")
+    parser.add_argument("account", help="Public account name.")
     parser.add_argument("count", nargs="?", type=int, default=10, help="Number of links to collect")
     parser.add_argument("-o", "--output", type=Path, help="Save result JSON to this path")
-    parser.add_argument("--wechat-id", help="Optional exact wxid, e.g. rmrbwx")
+    parser.add_argument("--wechat-id", help="Optional exact wxid.")
     parser.add_argument("--headless", action="store_true", help="Run headless. Requires valid mp_auth.json.")
     parser.add_argument("--browser-channel", help="Use an installed browser channel, e.g. chrome or msedge.")
     parser.add_argument("--browser-executable", type=Path, help="Use a local browser executable path.")

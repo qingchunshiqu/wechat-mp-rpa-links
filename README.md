@@ -1,18 +1,18 @@
 # WeChat MP RPA Links
 
-一个基于 Playwright 的微信公众号后台文章链接采集示例，用于学习浏览器自动化、登录态复用、分页读取和本地内容归档流程。
+一个基于 Playwright 的微信公众号后台文章链接采集示例，用于学习浏览器自动化、会话复用、分页读取和本地内容归档流程。
 
 > 仅用于学习、研究和合法授权场景。使用前请阅读 [风险声明](DISCLAIMER.md)。
 
 ## 功能
 
-- 通过微信公众号后台搜索指定公众号并读取历史文章。
-- 支持按公众号名称和微信号精确匹配目标账号。
+- 通过微信公众号后台搜索目标账号并读取历史文章。
+- 支持按名称和微信号匹配目标账号。
 - 支持导出 JSON 结果，保存文章标题、日期和链接。
 - 支持下载文章 HTML 与图片资源到本地目录。
 - 支持 `--since`、`--until` 限制时间范围。
-- 支持本机 Chrome 或 Edge，避免 Playwright 浏览器包下载失败。
-- 支持 `crawl_tasks.json` 批量配置每日抓取任务。
+- 支持本机 Chrome 或 Edge。
+- 支持 `crawl_tasks.json` 批量配置定时任务。
 
 ## 环境要求
 
@@ -29,53 +29,40 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-如果希望使用 Playwright 自带浏览器：
-
-```powershell
-python -m playwright install chromium
-```
-
-国内网络可以尝试镜像，但镜像可能滞后：
-
-```powershell
-$env:PLAYWRIGHT_DOWNLOAD_HOST = "https://npmmirror.com/mirrors/playwright"
-python -m playwright install chromium
-```
-
 ## 快速开始
 
 首次运行建议打开可视浏览器扫码登录：
 
 ```powershell
-python wechat_mp_rpa_links.py "人民日报" 2 --wechat-id rmrbwx --browser-channel chrome -o result.json
+python wechat_mp_rpa_links.py "目标公众号" 2 --wechat-id gh_xxxxx --browser-channel chrome -o output.json
 ```
 
-登录成功后会在本地生成 `mp_auth.json`。后续可使用 headless 模式：
+后续可使用 headless 模式：
 
 ```powershell
-python wechat_mp_rpa_links.py "人民日报" 2 --wechat-id rmrbwx --headless --browser-channel chrome -o result.json
+python wechat_mp_rpa_links.py "目标公众号" 2 --wechat-id gh_xxxxx --headless --browser-channel chrome -o output.json
 ```
 
 下载文章 HTML 和图片：
 
 ```powershell
-python wechat_mp_rpa_links.py "人民日报" 2 --wechat-id rmrbwx --headless --browser-channel chrome --download --download-dir articles -o result.json
+python wechat_mp_rpa_links.py "目标公众号" 2 --wechat-id gh_xxxxx --headless --browser-channel chrome --download --download-dir downloads -o output.json
 ```
 
 使用 Edge：
 
 ```powershell
-python wechat_mp_rpa_links.py "人民日报" 2 --wechat-id rmrbwx --headless --browser-channel msedge -o result.json
+python wechat_mp_rpa_links.py "目标公众号" 2 --wechat-id gh_xxxxx --headless --browser-channel msedge -o output.json
 ```
 
 ## 参数
 
 | 参数 | 说明 |
 | --- | --- |
-| `account` | 公众号名称，例如 `人民日报` |
+| `account` | 目标公众号名称 |
 | `count` | 需要采集的文章数量 |
 | `--wechat-id` | 可选，公众号微信号，用于精确匹配 |
-| `--headless` | 无界面运行，要求 `mp_auth.json` 仍然有效 |
+| `--headless` | 无界面运行，要求本地会话仍然有效 |
 | `--browser-channel` | 使用本机浏览器，例如 `chrome` 或 `msedge` |
 | `--browser-executable` | 指定浏览器可执行文件路径 |
 | `--download` | 下载文章 HTML 和图片 |
@@ -91,10 +78,10 @@ python wechat_mp_rpa_links.py "人民日报" 2 --wechat-id rmrbwx --headless --b
 ```json
 {
   "accounts": [
-    { "name": "人民日报", "wechat_id": "rmrbwx", "max_articles": 10 }
+    { "name": "目标公众号", "wechat_id": "gh_xxxxx", "max_articles": 10 }
   ],
   "download_articles": true,
-  "download_dir": "daily_articles",
+  "download_dir": "downloads",
   "headless": false,
   "browser_channel": "chrome",
   "max_count": 30,
@@ -108,20 +95,7 @@ python wechat_mp_rpa_links.py "人民日报" 2 --wechat-id rmrbwx --headless --b
 python daily_crawl.py
 ```
 
-`daily_crawl.py` 会按当前时间自动计算半天时间段，并把每个账号的结果写入 `daily_crawl_results/`。
-
-## 敏感文件
-
-以下文件和目录默认不会提交到 Git：
-
-- `mp_auth.json`
-- `result.json`
-- `articles/`
-- `daily_articles/`
-- `daily_crawl_results/`
-- Python 虚拟环境和缓存目录
-
-`mp_auth.json` 保存登录态 Cookie，泄露后可能导致账号风险。不要上传、转发或共享该文件。
+`daily_crawl.py` 会按当前时间自动计算半天时间段，并为每个账号输出采集结果。
 
 ## 合规提示
 
