@@ -1,0 +1,31 @@
+{
+  "comment": "按公众号配置每日定时抓取。时段由调度器/任务计划决定，这里只存公众号信息。",
+  "accounts": [
+    {
+      "name": "人民日报",
+      "max_articles": 10
+    },
+    {
+      "name": "新华社",
+      "max_articles": 10
+    },
+    {
+      "name": "央视新闻",
+      "max_articles": 10
+    }
+  ],
+  "download_articles": true,
+  "download_dir": "daily_articles",
+  "headless": false,
+  "browser_channel": "chrome",
+  "browser_executable": "",
+  "max_count": 30,
+  "scan_limit": 50,
+  "delay_min": 1.0,
+  "delay_max": 2.5,
+  "download_delay_min": 2.0,
+  "download_delay_max": 5.0,
+  "image_delay_min": 0.2,
+  "image_delay_max": 0.8,
+  "retries": 2
+}
